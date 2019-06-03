@@ -1,0 +1,63 @@
+<html>
+
+<head>
+    <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-polyfills/0.1.42/polyfill.min.js"></script>
+    <link href="https://cdn.syncfusion.com/ej2/material.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="stackblitz-container material">
+        <div class="control-section">
+            <div class="content-wrapper">
+                <div id="Schedule">
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var data = [{
+                Id: 1,
+                Subject: 'Meeting',
+                StartTime: new Date(2018, 1, 15, 10, 0),
+                EndTime: new Date(2018, 1, 15, 12, 30)
+            }];
+            var scheduleObj = new ej.schedule.Schedule({
+                width: '100%', height: '550px',
+                selectedDate: new Date(2018, 1, 15),
+                eventSettings: {
+                    dataSource: data
+                },
+                popupOpen: function (args) {
+                    if (args.type === 'QuickInfo') {
+                        var details = '';
+                        var instance = new ej.base.Internationalization();
+                        var startDate = args.data.StartTime;
+                        var endDate = args.data.EndTime;
+                        var isAllDay = args.data.IsAllDay;
+                        var startTimeDetail = instance.formatDate(startDate, { type: 'time', skeleton: 'short' });
+                        var endTimeDetail = instance.formatDate(endDate, { type: 'time', skeleton: 'short' });
+                        var startDateDetails = this.getDayNames('wide')[startDate.getDay()];
+                        endDate = (isAllDay) && endDate.getHours() === 0 && endDate.getMinutes() === 0 ? new Date(endDate.setDate(endDate.getDate() - 1)) : endDate;
+                        var endDateDetails = this.getDayNames('wide')[endDate.getDay()];
+                        var spanLength = endDate.getDate() !== startDate.getDate() &&
+                            (endDate.getTime() - startDate.getTime()) / (60 * 60 * 1000) < 24 ? 1 : 0;
+                        if (isAllDay) {
+                            details = startDateDetails + ' (all Day)';
+                            if ((endDate.getTime() - startDate.getTime()) / 86400000 > 1) {
+                                details += ' - ' + endDateDetails + ' (all Day)';
+                            }
+                        } else if ((((endDate.getTime() - startDate.getTime()) / 86400000) >= 1 || spanLength > 0)) {
+                            details = startDateDetails + ' (' + startTimeDetail + ')' + ' - ' + endDateDetails + ' (' + endTimeDetail + ')';
+                        } else {
+                            details = startDateDetails + ' (' + (startTimeDetail + ' - ' + endTimeDetail) + ')';
+                        }
+                        args.element.querySelector('.e-date-time-details').textContent = details;
+                    }
+                }
+            });
+            scheduleObj.appendTo('#Schedule');
+        </script>
+    </div>
+</body>
+
+</html>
