@@ -1,60 +1,47 @@
-# EJ2 JavaScript
+# How to Customize the Time Format Without Locale Option
 
-A sample application demonstrating dynamic date format customization within quick popup components using the EJ2 JavaScript library.
-
-## Overview
-
-This sample showcases how to implement and configure different date formats in a quick popup interface. It provides practical examples of customizing date display formats to meet localization requirements and demonstrates best practices for date manipulation in web applications using EJ2 components.
+This example repository demonstrates how to customize the time format in [JavaScript Scheduler](https://www.syncfusion.com/javascript-ui-controls/js-scheduler) without using locale options. It showcases using Internationalization to format time in the scheduler's time scale, providing a practical approach for displaying custom time formats in scheduling components.
 
 ## Features
 
-- Dynamic date format customization in popup components
-- Support for multiple date format patterns
-- Quick popup with date controls
-- Real-time format switching
-- Responsive interface
-
-## Prerequisites
-
-- Node.js (v12.0 or higher)
-- npm (v6.0 or higher)
-- Modern web browser
-- EJ2 JavaScript library
+- Custom time format customization in Scheduler quick popup without locale options
+- Uses Internationalization API for time formatting
+- Dynamic day name display (wide format)
+- Support for all-day events with appropriate time display
+- Multi-day event handling with start and end time details
+- Responsive Scheduler interface
 
 ## Installation
 
 1. Clone or download the sample repository
 2. Navigate to the project directory
-3. Install dependencies:
-   ```
-   npm install
-   ```
-4. Install EJ2 dependencies:
-   ```
-   npm install @syncfusion/ej2-base @syncfusion/ej2-calendars
-   ```
 
 ## Usage
 
-1. Open the project in your code editor
+1. Open `Sample.html` directly in your web browser, or
 2. Run a local development server:
    ```
    npm start
    ```
-3. Open your browser to the local development URL
-4. Interact with the quick popup to select dates and customize the format
+3. Navigate to the local server URL in your browser
+4. Click on events in the Scheduler to see the quick popup with custom-formatted time details
 
 ## Configuration
 
-Configure date formats by modifying the format property:
+Customize time formatting in the quick popup using the Internationalization `formatDate` method:
 
 ```javascript
-dateFormat: 'dd/MM/yyyy'   // US format
-dateFormat: 'yyyy-MM-dd'   // ISO format
-dateFormat: 'MMM dd, yyyy' // Text-based format
+// Format time with short skeleton
+var instance = new ej.base.Internationalization();
+var formattedTime = instance.formatDate(date, { type: 'time', skeleton: 'short' });
+
+// For custom formatting without locale, modify the skeleton option:
+// 'short'   - e.g., 10:30 AM
+// 'medium'  - e.g., 10:30:45 AM
+// 'long'    - e.g., 10:30:45 AM GMT+5:30
 ```
 
-You can also customize popup position, initial date selection, and format conversion options based on your requirements.
+You can customize the time format by modifying the `skeleton` property in the `formatDate` method within the `popupOpen` event handler. The Internationalization class handles the formatting based on the specified skeleton and locale.
 
 ## License
 
